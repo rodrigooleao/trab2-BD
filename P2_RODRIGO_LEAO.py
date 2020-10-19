@@ -76,13 +76,15 @@ def questionA(sc, path_file, ASIN):
 
     print("\n##MAIS UTEIS MENOR RATING##")
 
-    rdd7 = sc.parallelize(rdd6).sortBy( lambda x : x['rating']).top(5, lambda x: x['rating'])
-    print(rdd7)
+    lista1 = sc.parallelize(rdd6).sortBy( lambda x : x['rating']).top(5, lambda x: x['rating'])
+    for line in lista1:
+        print(line)
 
     print("\n##MAIS UTEIS MAIOR RATING##")
 
-    rdd8 = sc.parallelize(rdd6).sortBy( lambda x : x['rating'], ascending=False).top(5, lambda x: x['rating'])
-    print(rdd8)
+    lista2 = sc.parallelize(rdd6).sortBy( lambda x : x['rating'], ascending=False).top(5, lambda x: x['rating'])
+    for line in lista2:
+        print(line)
 
 def questionB(sc, path_file, ASIN):
     rdd = sc.textFile(path_file)
@@ -106,7 +108,11 @@ def questionB(sc, path_file, ASIN):
 
     filteredRdd = joinedRdd.filter( lambda x : int(x[1][0]) > int(x[1][1]))
 
-    print(filteredRdd.collect())
+    lista = filteredRdd.collect()
+    
+    print("\n##SIMILARES COM MAIORES VENDAS##")
+    for l in lista:
+        print(l)
 
 def questionC(sc, path_file, ASIN):
     rdd = sc.textFile(path_file)
@@ -119,7 +125,11 @@ def questionC(sc, path_file, ASIN):
 
     newRdd = reviewsRdd.flatMap(lambda x: [(item['date'], item['rating']) for item in x[1]])
 
-    print( newRdd.collect())
+    lista = newRdd.collect()
+
+    print("\n##EVOLUÇÃO DO RATING##")
+    for l in lista:
+        print(l)
 
 def questionD(sc, path_file):
     rdd = sc.textFile(path_file)
@@ -136,7 +146,11 @@ def questionD(sc, path_file):
 
     rdd7 = rdd6.map(lambda x: (x[0], list(x[1])))
 
-    print(rdd7.collect())
+    lista = rdd7.collect()
+
+    print("\n##LÍDERES DE VENDA POR CATEGORIA##")
+    for l in lista:
+        print(l)
 
 def questionE(sc, path_file):
     rdd = sc.textFile(path_file)
@@ -150,6 +164,12 @@ def questionE(sc, path_file):
     rdd5 = rdd4.groupBy(lambda x: x[1]).map(lambda x : (x[0], list(x[1])))
 
     print(rdd5.collect())
+
+    print("\n##MAIORES RATINGS POR GRUPO##")
+    lista = rdd5.collect()
+
+    for l in lista:
+        print(l)
 
 def questionF(sc, path_file):
     pass
@@ -175,8 +195,13 @@ sc = SparkContext(conf=conf)
 
 questionA(sc, path, "0231118597")
 
+questionB(sc, path, "0231118597")
 
+questionC(sc, path, "0231118597")
 
+questionD(sc, path)
 
+questionD(sc, path)
 
+questionE(sc, path)
 

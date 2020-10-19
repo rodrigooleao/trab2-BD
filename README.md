@@ -2,4 +2,4 @@
 
 ### rodar programa
 
-    python3 main.py path/to/file.tar.gz
+    python3 P2_RODRIGO_LEAO.py path/to/file.tar.gz
